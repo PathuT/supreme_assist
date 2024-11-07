@@ -112,8 +112,8 @@ model = genai.GenerativeModel(
     generation_config=generation_config,
     system_instruction=(
         "You are an expert in laws and your role is to assist junior counsels and law students. "
-        "Your task is to engage in conversations about  law, answer legal questions, provide "
-        "provide real-time information on case law based on user input queries. Ensure that your explanations are clear and precise "
+        "Your task is to engage in conversations about law, answer legal questions, provide "
+        "real-time information on case law based on user input queries. Ensure that your explanations are clear and precise "
         "using legal terminology in a way that is understandable for your audience. Provide accurate, "
         "fast, and user-friendly responses using the Gemini API. Aim to help users strengthen their legal knowledge "
         "offer relevant case law examples and practical applications. Also provide some real example cases "
@@ -134,35 +134,36 @@ def clear_chat():
 # Header
 st.markdown('<h1 class="main-header">⚖️ Supreme Assist<br/><span style="font-size: 1.2rem; color: #64748B;">Your Personal Criminal Law Assistant</span></h1>', unsafe_allow_html=True)
 
-# Create two columns for layout
-col1, col2 = st.columns([2, 1])
+# Display chat history above the input box
+if st.session_state.chat_history:
+    st.markdown("### Conversation")
+    for entry in st.session_state.chat_history:
+        if entry["role"] == "user":
+            st.markdown(f"""
+                <div class="chat-message-user">
+                    <div class="user-label">You</div>
+                    {entry['content']}
+                </div>
+            """, unsafe_allow_html=True)
+        else:
+            st.markdown(f"""
+                <div class="chat-message-assistant">
+                    <div class="assistant-label">Supreme Assist</div>
+                    {entry['content']}
+                </div>
+            """, unsafe_allow_html=True)
 
-with col1:
-    # Chat input area
-    user_input = st.text_input("Ask your legal question:", key="user_input", 
-                              placeholder="Type your question here...")
-    
-    # Button row
-    button_col1, button_col2, button_col3 = st.columns([1, 1, 2])
-    with button_col1:
-        submit = st.button("Submit")
-    with button_col2:
-        if st.button("Clear History"):
-            clear_chat()
+# Input box and buttons
+user_input = st.text_input("Ask your legal question:", key="user_input", 
+                           placeholder="Type your question here...", value="")
 
-with col2:
-    # Information card
-    st.markdown("""
-        <div style="background-color: #F8FAFC; padding: 1rem; border-radius: 10px; border: 1px solid #E2E8F0;">
-            <h3 style="color: #1E40AF;">How to use Supreme Assist</h3>
-            <ul style="color: #4B5563;">
-                <li>Ask questions about criminal law</li>
-                <li>Get detailed explanations and examples</li>
-                <li>Explore legal concepts and precedents</li>
-                <li>Learn about procedures and rights</li>
-            </ul>
-        </div>
-    """, unsafe_allow_html=True)
+# Button row
+button_col1, button_col2, button_col3 = st.columns([1, 1, 2])
+with button_col1:
+    submit = st.button("Submit")
+with button_col2:
+    if st.button("Clear History"):
+        clear_chat()
 
 # Process chat
 if submit and user_input:
@@ -190,25 +191,6 @@ if submit and user_input:
         
     except Exception as e:
         st.error(f"An error occurred: {e}")
-
-# Display chat history
-if st.session_state.chat_history:
-    st.markdown("### Conversation")
-    for entry in st.session_state.chat_history:
-        if entry["role"] == "user":
-            st.markdown(f"""
-                <div class="chat-message-user">
-                    <div class="user-label">You</div>
-                    {entry['content']}
-                </div>
-            """, unsafe_allow_html=True)
-        else:
-            st.markdown(f"""
-                <div class="chat-message-assistant">
-                    <div class="assistant-label">Supreme Assist</div>
-                    {entry['content']}
-                </div>
-            """, unsafe_allow_html=True)
 
 # Disclaimer
 st.markdown("""
