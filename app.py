@@ -195,8 +195,6 @@ if submit and user_input:
 # Disclaimer
 st.markdown("""
     <div class="disclaimer">
-        <strong>📢 Disclaimer:</strong> Supreme Assist is an AI-based legal assistant designed for educational purposes.
-        The information provided should not be considered as professional legal advice. 
-        For actual legal matters, please consult with a qualified attorney.
+        <strong>📢 Disclaimer:</strong> Supreme Assist is an AI-driven tool created to help users explore and understand general legal principles. While we strive to offer accurate and insightful information, Supreme Assist does not replace professional legal advice. For assistance with specific legal issues, please consult a qualified attorney who can provide personalized guidance.
     </div>
 """, unsafe_allow_html=True)
